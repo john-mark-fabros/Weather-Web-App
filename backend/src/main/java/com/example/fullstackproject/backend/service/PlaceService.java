@@ -1,6 +1,10 @@
 package com.example.fullstackproject.backend.service;
 
+import com.example.fullstackproject.backend.entity.Place;
+import com.example.fullstackproject.backend.repository.PlaceRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /*
  * John Mark A. Fabros
@@ -8,5 +12,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class PlaceService {
 
-    // TODO add backend functionality for web request
+    private final PlaceRepository repository;
+
+    public PlaceService(PlaceRepository repository) {
+        this.repository = repository;
+    }
+
+    // GET ALL PLACE
+    public List<Place> getAllPlace() {
+        return repository.findAll();
+    }
 }
