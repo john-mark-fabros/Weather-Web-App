@@ -27,6 +27,10 @@ public class PlaceController {
     // GET MAPPING
     @GetMapping
     public ResponseEntity<List<Place>> getAllPlace() {
-        return new ResponseEntity<>(service.getAllPlace(), HttpStatus.OK);
+        if(service.getAllPlace().size() == 0) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<>(service.getAllPlace(), HttpStatus.OK);
+        }
     }
 }
