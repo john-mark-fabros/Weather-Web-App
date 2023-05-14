@@ -9,6 +9,7 @@ import com.example.fullstackproject.backend.service.PlaceService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,13 +25,29 @@ public class PlaceController {
         this.service = service;
     }
 
-    // GET MAPPING
+    // GET ALL
     @GetMapping
     public ResponseEntity<List<Place>> getAllPlace() {
         if(service.getAllPlace().size() == 0) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
             return new ResponseEntity<>(service.getAllPlace(), HttpStatus.OK);
+        }
+    }
+
+    // GET BY ID
+    @GetMapping(path = "/{id}")
+    public ResponseEntity<Place> getPlaceById(@PathVariable("id")  Integer id) {
+        return new ResponseEntity<>(service.getById(id), HttpStatus.OK);
+    }
+
+    // FIND ALL BY PLACE
+    @GetMapping(path = "/{place}")
+    public ResponseEntity<List<Place>> getByPlace(@PathVariable("place") String place) {
+        if(service.getByPlace(place).size() == 0) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<>(service.getByPlace(place), HttpStatus.OK);
         }
     }
 }
