@@ -11,5 +11,5 @@ import java.util.List;
 public interface PlaceRepository extends JpaRepository<Place, Integer> {
 
     // fetch by place
-    List<Place> findAllByPlace(String place);
+    List<Place> findAllByName(String name);
 }

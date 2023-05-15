@@ -8,10 +8,8 @@ import com.example.fullstackproject.backend.entity.Place;
 import com.example.fullstackproject.backend.service.PlaceService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -36,7 +34,7 @@ public class PlaceController {
     }
 
     // GET BY ID
-    @GetMapping(path = "/{id}")
+    @GetMapping(path = "/place/{id}")
     public ResponseEntity<Place> getPlaceById(@PathVariable("id")  Integer id) {
         return new ResponseEntity<>(service.getById(id), HttpStatus.OK);
     }
@@ -44,10 +42,20 @@ public class PlaceController {
     // FIND ALL BY PLACE
     @GetMapping(path = "/{place}")
     public ResponseEntity<List<Place>> getByPlace(@PathVariable("place") String place) {
-        if(service.getByPlace(place).size() == 0) {
+        if(service.getByPlace(place).isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
             return new ResponseEntity<>(service.getByPlace(place), HttpStatus.OK);
+        }
+    }
+
+    // ADD NEW PLACE
+    @PostMapping
+    public ResponseEntity<Place> savePlace(@RequestBody Place place) {
+        try{
+            return new ResponseEntity<>(service.save(place), HttpStatus.CREATED);
+        } catch(ResponseStatusException e) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
     }
 }

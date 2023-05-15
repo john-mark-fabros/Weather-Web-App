@@ -3,7 +3,6 @@ package com.example.fullstackproject.backend.service;
 import com.example.fullstackproject.backend.entity.Place;
 import com.example.fullstackproject.backend.repository.PlaceRepository;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -33,12 +32,19 @@ public class PlaceService {
         if(place.isPresent()) {
             return place.get();
         } else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Place does not exist");
         }
     }
 
     // FETCH BY PLACE
     public List<Place> getByPlace(String place) {
-        return repository.findAllByPlace(place);
+        return repository.findAllByName(place);
     }
+
+    // ADD NEW PLACE
+    public Place save(Place place) {
+        return repository.save(place);
+    }
+
+
 }
