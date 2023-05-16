@@ -28,5 +28,5 @@ public class Place {
     @NotBlank
     private String name;
 
-    private int temp;
+    private Integer temp;
 }

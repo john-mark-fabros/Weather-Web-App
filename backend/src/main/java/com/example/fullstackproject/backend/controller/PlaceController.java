@@ -67,6 +67,16 @@ public class PlaceController {
             service.delete(id);
             return new ResponseEntity(HttpStatus.NO_CONTENT);
         } catch (ResponseStatusException e) {
+            throw  new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    // PUT PLACE
+    @PutMapping(path = "/{id}")
+    public ResponseEntity<Place> putPlace(@PathVariable("id") Integer id, @RequestBody Place place) {
+        try {
+            return new ResponseEntity<>(service.put(id, place), HttpStatus.OK);
+        } catch(ResponseStatusException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
     }

@@ -59,4 +59,21 @@ public class PlaceService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
     }
+
+    // PUT PLACE
+    public Place put(Integer id, Place place) {
+        Optional<Place> temp = repository.findById(id);
+        if(temp.isPresent()) {
+            Place updatePlace = repository.findById(id).get();
+            if(place.getName() != null) {
+                updatePlace.setName(place.getName());
+            }
+            if(place.getTemp() != null) {
+                updatePlace.setTemp(place.getTemp());
+            }
+            return repository.save(updatePlace);
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+    }
 }
