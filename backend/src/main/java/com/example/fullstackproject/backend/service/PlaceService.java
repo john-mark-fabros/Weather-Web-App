@@ -3,7 +3,9 @@ package com.example.fullstackproject.backend.service;
 import com.example.fullstackproject.backend.entity.Place;
 import com.example.fullstackproject.backend.repository.PlaceRepository;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
@@ -38,13 +40,23 @@ public class PlaceService {
 
     // FETCH BY PLACE
     public List<Place> getByPlace(String place) {
-        return repository.findAllByName(place);
+        return repository.findAllByName(StringUtils.capitalize(place));
     }
 
     // ADD NEW PLACE
     public Place save(Place place) {
-        return repository.save(place);
+        // this is to ensure that all place name will have the same format
+        Place temp = new Place(place.getId(), StringUtils.capitalize(place.getName()), place.getTemp());
+        return repository.save(temp);
     }
 
-
+    // DELETE PLACE
+    public void delete(Integer id) {
+        Optional<Place> temp = repository.findById(id);
+        if(temp.isPresent()) {
+            repository.deleteById(id);
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+    }
 }

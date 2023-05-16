@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -51,11 +52,22 @@ public class PlaceController {
 
     // ADD NEW PLACE
     @PostMapping
-    public ResponseEntity<Place> savePlace(@RequestBody Place place) {
+    public ResponseEntity<Place> savePlace(@Valid @RequestBody Place place) {
         try{
             return new ResponseEntity<>(service.save(place), HttpStatus.CREATED);
         } catch(ResponseStatusException e) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+    }
+
+    // DELETE PLACE
+    @DeleteMapping(path = "/{id}")
+    public ResponseEntity deletePlace(@PathVariable Integer id) {
+        try {
+            service.delete(id);
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+        } catch (ResponseStatusException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
     }
 }
