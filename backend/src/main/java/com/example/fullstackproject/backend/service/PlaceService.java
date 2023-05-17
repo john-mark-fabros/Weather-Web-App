@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,7 +32,7 @@ public class PlaceService {
     // GET SPECIFIC PLACE BY ID
     public Place getById(Integer id) {
         Optional<Place> place = repository.findById(id);
-        if(place.isPresent()) {
+        if (place.isPresent()) {
             return place.get();
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Place does not exist");
@@ -53,7 +54,7 @@ public class PlaceService {
     // DELETE PLACE
     public void delete(Integer id) {
         Optional<Place> temp = repository.findById(id);
-        if(temp.isPresent()) {
+        if (temp.isPresent()) {
             repository.deleteById(id);
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
@@ -63,12 +64,12 @@ public class PlaceService {
     // PUT PLACE
     public Place put(Integer id, Place place) {
         Optional<Place> temp = repository.findById(id);
-        if(temp.isPresent()) {
-            Place updatePlace = repository.findById(id).get();
-            if(place.getName() != null) {
+        if (temp.isPresent()) {
+            Place updatePlace = repository.findById(id).get(); // fetch Place and assign to temporary Place;
+            if (place.getName() != null && !place.getName().isEmpty()) {
                 updatePlace.setName(place.getName());
             }
-            if(place.getTemp() != null) {
+            if (place.getTemp() != null) {
                 updatePlace.setTemp(place.getTemp());
             }
             return repository.save(updatePlace);
