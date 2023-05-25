@@ -83,11 +83,27 @@
     width: 100%;
     height: 100vh;
     padding-top: 50px;
-    background-color: #2874A6 ;
+    background: linear-gradient(130deg,#85C1E9, #21618C);
 }
 
+/* for the favorite design */
+.favorite_container {
+    display: grid;
+    grid-template-columns: 20% 20% 20%;
+    grid-template-rows: 20% 20% 20%;
+    justify-content: center;
+}
 
+.favorite_container {
+    background: linear-gradient(130deg,#85C1E9, #21618C);
+    height: 100vh;
+    width: 100%;
+    align-content: center;
+}
 
+.box {
+    padding: 10%;
+}
 
 
 
